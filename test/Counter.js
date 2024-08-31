@@ -22,5 +22,15 @@ describe('Counter', () => {
 
   });
 
+  describe('Counting', () => {
+    it('increments the count', async () => {
+      let transaction = await counter.increment();
+      await transaction.wait()
+
+      let count = await counter.count();
+      expect(count).to.equal(2);
+    })
+  })
+
 
 });
