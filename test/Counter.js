@@ -37,8 +37,16 @@ describe('Counter', () => {
 
       count = await counter.count();
       expect(count).to.equal(3);
-    })
-  })
+    });
+
+    it('decrements the count', async () => {
+      transaction = await counter.decrement();
+      await transaction.wait()
+
+      let count = await counter.count();
+      expect(count).to.equal(0);
+    });
+  });
 
 
 });
