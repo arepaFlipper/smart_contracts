@@ -1,7 +1,7 @@
 {
   "name": "smart_contracts",
   "version": "1.0.0",
-  "description": "This repo is intendent to test the solidity smart contracts",
+  "description": "This repository is intendent to test the solidity smart contracts",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,11 +15,15 @@
   ],
   "author": "Cristian F. Tovar",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arepaFlipper/smart_contracts/issues"
+  },
+  "homepage": "https://github.com/arepaFlipper/smart_contracts#readme",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
-    "hardhat": "^2.10.1"
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.3.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.7.2"
+    "@openzeppelin/contracts": "^5.0.2"
   }
 }
