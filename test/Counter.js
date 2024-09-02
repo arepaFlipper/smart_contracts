@@ -29,8 +29,9 @@ describe('Counter', () => {
       expect(await counter.count()).to.equal(1);
     });
 
+
     it('reads the count from the "getCount()" function', async () => {
-      expect(await counter.count()).to.equal(1);
+      expect(await counter.getCount()).to.equal(1);
     });
 
     it('increments the count', async () => {
@@ -57,6 +58,26 @@ describe('Counter', () => {
       await expect(counter.decrement()).to.be.reverted
     });
   });
+  describe('Assining name', () => {
+    let transaction;
 
+    it('reads the count from the "name" public variable', async () => {
+      expect(await counter.name()).to.equal('My Counter');
+    });
+
+    it('reads the count from the "getName()" function', async () => {
+      expect(await counter.getName()).to.equal('My Counter');
+    });
+
+    it('updates the name', async () => {
+      transaction = await counter.setName('New Name');
+      expect(await counter.getName()).to.equal('New Name');
+      await transaction.wait();
+      const update_response = await counter.name()
+      expect(update_response).to.equal('New Name');
+    });
+
+
+  });
 
 });
