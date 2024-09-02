@@ -45,6 +45,8 @@ describe('Counter', () => {
 
       let count = await counter.count();
       expect(count).to.equal(0);
+
+      await expect(counter.decrement()).to.be.reverted
     });
   });
 
