@@ -1,6 +1,13 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
+const tokens = (n) => {
+  const str_number = n.toString();
+  return ethers.utils.parseUnits(str_number, 'ether');
+}
+
+const ether = tokens;
+
 describe('RealEstate', () => {
   let realEstate, escrow, deployer, seller, nftID = 1;
   beforeEach(async () => {
@@ -9,6 +16,8 @@ describe('RealEstate', () => {
     deployer = accounts[0];
     seller = deployer;
     buyer = accounts[1];
+    inspector = accounts[2];
+    lender = accounts[3];
 
     // NOTE: Load contracts
     const RealEstate = await ethers.getContractFactory('RealEstate');
@@ -19,8 +28,14 @@ describe('RealEstate', () => {
     escrow = await Escrow.deploy(
       realEstate.address,
       nftID,
+      // 100_000_000_000_000_000_000,
+      // ethers.utils.parseUnits('100', 'ether'),
+      ether(100),
+      ether(20),
       seller.address,
-      buyer.address
+      buyer.address,
+      inspector.address,
+      lender.address
     );
 
     // NOTE: Seller approves NFT
