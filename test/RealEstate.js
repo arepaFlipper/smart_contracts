@@ -15,7 +15,7 @@ describe('RealEstate', () => {
 
     // NOTE: Deploy contracts
     realEstate = await RealEstate.deploy();
-    escrow = await Escrow.deploy();
+    escrow = await Escrow.deploy(realEstate.address, nftID);
   });
 
   describe('Deployment', async () => {
