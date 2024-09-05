@@ -9,7 +9,7 @@ const tokens = (n) => {
 const ether = tokens;
 
 describe('RealEstate', () => {
-  let realEstate, escrow, deployer, seller, nftID = 1;
+  let realEstate, escrow, deployer, seller, nftID = 1, purchasePrice = ether(100), escrowAmount = ether(20);
   beforeEach(async () => {
     // NOTE: Setup accounts
     accounts = await ethers.getSigners();
@@ -30,8 +30,8 @@ describe('RealEstate', () => {
       nftID,
       // 100_000_000_000_000_000_000,
       // ethers.utils.parseUnits('100', 'ether'),
-      ether(100),
-      ether(20),
+      purchasePrice,
+      escrowAmount,
       seller.address,
       buyer.address,
       inspector.address,
@@ -51,12 +51,21 @@ describe('RealEstate', () => {
   });
 
   describe('Selling real estate', async () => {
+    let balance, transaction;
     it('executes a succesful transaction', async () => {
       // NOTE: Expects seller to be NFT owner before the sale
       const seller_id = await realEstate.ownerOf(nftID);
       expect(seller_id).to.equal(seller.address)
 
       let transaction = await escrow.connect(buyer).finalizeSale();
+      // NOTE: Buyer deposits earnest
+      transaction = await escrow.connect(buyer).depositEarnest({ value: escrowAmount })
+
+      // NOTE: Check escrow balance
+      balance = await escrow.getBalance()
+      console.log(`💛%cRealEstate.js:66 - balance:`, 'font-weight:bold; background:2824273920;color:#fff;', ethers.utils.formatEther(balance)); //DELETEME:
+      console.log(balance); // DELETEME:
+
       await transaction.wait();
 
       // NOTE: expects buyer to be nft owner after the sale

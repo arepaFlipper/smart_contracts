@@ -36,6 +36,14 @@ contract Escrow {
     lender = _lender;
   }
 
+  function depositEarnest() public payable {
+    require(msg.value >= escrowAmount);
+  }
+
+  function getBalance() public view returns (uint) {
+    return address(this).balance;
+  }
+
   function finalizeSale() public {
     // NOTE: Transfer ownership of property
     IERC721(nftAddress).transferFrom(seller, buyer, nftID);
