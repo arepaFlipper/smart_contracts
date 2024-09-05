@@ -68,7 +68,10 @@ describe('RealEstate', () => {
       console.log(`💛%cRealEstate.js:66 - balance:`, 'font-weight:bold; background:2824273920;color:#fff;', ethers.utils.formatEther(balance)); //DELETEME:
       console.log(balance); // DELETEME:
 
+      // NOTE: Inspector updates status
+      transaction = await escrow.connect(inspector).updateInspectionStatus(true)
       await transaction.wait();
+      console.log(`🪛%c Inspector updates status `);
 
       // NOTE: expects buyer to be nft owner after the sale
       const buyer_id = await realEstate.ownerOf(nftID);

@@ -7,6 +7,7 @@ interface IERC721 {
 }
 
 contract Escrow {
+
   address public nftAddress;
   uint256 public nftID;
   uint256 public purchasePrice;
@@ -15,6 +16,18 @@ contract Escrow {
   address payable public buyer;
   address public inspector;
   address public lender;
+
+  modifier onlyBuyer() {
+    require(msg.sender == buyer, "Only buyer can call this function");
+    _;
+  }
+
+  modifier onlyInspector() {
+    require(msg.sender == inspector, "Only inspector can call this function");
+    _;
+  }
+
+  bool public inspectionPassed = false;
 
   constructor(
     address _nftAddress,
@@ -36,14 +49,13 @@ contract Escrow {
     lender = _lender;
   }
 
-  modifier onlyBuyer() {
-    require(msg.sender == buyer, "Only buyer can call this function");
-    _;
-  }
-
   function depositEarnest() public payable onlyBuyer {
     require(msg.value >= escrowAmount);
     require(msg.sender == buyer, "Only a buyer can call this function");
+  }
+
+  function updateInspectionStatus(bool _passed) public onlyInspector {
+    inspectionPassed = _passed;
   }
 
   function getBalance() public view returns (uint) {
