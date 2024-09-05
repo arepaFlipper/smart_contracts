@@ -60,6 +60,8 @@ describe('RealEstate', () => {
       let transaction = await escrow.connect(buyer).finalizeSale();
       // NOTE: Buyer deposits earnest
       transaction = await escrow.connect(buyer).depositEarnest({ value: escrowAmount })
+      await transaction.wait();
+      console.log(`🎣%cRealEstate.js:63 - buyer `, 'font-weight:bold; background:2774138880;color:#fff;', " deposits earnest money."); //DELETEME:
 
       // NOTE: Check escrow balance
       balance = await escrow.getBalance()
