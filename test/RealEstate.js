@@ -76,10 +76,15 @@ describe('RealEstate', () => {
       await transaction.wait();
       console.log("Buyer approves sale ✅")
 
+      // NOTE: Seller approves sale
       transaction = await escrow.connect(seller).approveSale();
       await transaction.wait();
-      console.log("Seller approves sale ✅")
+      console.log("Seller approves sale ✅");
 
+      // NOTE: Lender funds sale
+      transaction = await lender.sendTransaction({ to: escrow.address, value: ether(80) });
+
+      // NOTE: Lender approves sale
       transaction = await escrow.connect(lender).approveSale();
       await transaction.wait();
       console.log("Lender approves sale ✅")
