@@ -69,6 +69,16 @@ contract Escrow {
     return address(this).balance;
   }
 
+  // NOTE: Cancel Sale  (handle earnest deposit)
+  // -> if inspection status is not approved, then refund, otherwise send to seller
+  function cancelSale() public {
+    if(inspectionPassed == false){
+      payable(buyer).transfer(address(this).balance);
+    } else {
+      payable(seller).transfer(address(this).balance);
+    }
+  }
+
   function finalizeSale() public {
     require(inspectionPassed, "must pass inspection");
     require(approval[buyer], "must be approved by buyer");
