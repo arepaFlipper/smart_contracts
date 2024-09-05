@@ -57,7 +57,6 @@ describe('RealEstate', () => {
       const seller_id = await realEstate.ownerOf(nftID);
       expect(seller_id).to.equal(seller.address)
 
-      let transaction = await escrow.connect(buyer).finalizeSale();
       // NOTE: Buyer deposits earnest
       transaction = await escrow.connect(buyer).depositEarnest({ value: escrowAmount })
       await transaction.wait();
@@ -71,8 +70,9 @@ describe('RealEstate', () => {
       // NOTE: Inspector updates status
       transaction = await escrow.connect(inspector).updateInspectionStatus(true)
       await transaction.wait();
-      console.log(`🪛%c Inspector updates status `);
+      console.log(`🪛%c Inspector updates status `, transaction);
 
+      transaction = await escrow.connect(buyer).finalizeSale();
       // NOTE: expects buyer to be nft owner after the sale
       const buyer_id = await realEstate.ownerOf(nftID);
       expect(buyer_id).to.not.equal(seller_id);

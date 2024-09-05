@@ -63,6 +63,8 @@ contract Escrow {
   }
 
   function finalizeSale() public {
+    require(inspectionPassed, "must pass inspection");
+
     // NOTE: Transfer ownership of property
     IERC721(nftAddress).transferFrom(seller, buyer, nftID);
   }
