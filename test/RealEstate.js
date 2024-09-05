@@ -65,12 +65,24 @@ describe('RealEstate', () => {
       // NOTE: Check escrow balance
       balance = await escrow.getBalance()
       console.log(`💛%cRealEstate.js:66 - balance:`, 'font-weight:bold; background:2824273920;color:#fff;', ethers.utils.formatEther(balance)); //DELETEME:
-      console.log(balance); // DELETEME:
 
       // NOTE: Inspector updates status
       transaction = await escrow.connect(inspector).updateInspectionStatus(true)
       await transaction.wait();
       console.log(`🪛%c Inspector updates status `, transaction);
+
+      // NOTE: Buyer approves sale
+      transaction = await escrow.connect(buyer).approveSale();
+      await transaction.wait();
+      console.log("Buyer approves sale ✅")
+
+      transaction = await escrow.connect(seller).approveSale();
+      await transaction.wait();
+      console.log("Seller approves sale ✅")
+
+      transaction = await escrow.connect(lender).approveSale();
+      await transaction.wait();
+      console.log("Lender approves sale ✅")
 
       transaction = await escrow.connect(buyer).finalizeSale();
       // NOTE: expects buyer to be nft owner after the sale
