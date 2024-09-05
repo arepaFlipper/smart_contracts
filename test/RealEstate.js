@@ -94,6 +94,12 @@ describe('RealEstate', () => {
       const buyer_id = await realEstate.ownerOf(nftID);
       expect(buyer_id).to.not.equal(seller_id);
       expect(buyer_id).to.equal(buyer.address);
+
+
+      // NOTE: expects Seller to receive the Funds
+      balance = await ethers.provider.getBalance(seller.address);
+      console.log("Seller balance:", ethers.utils.formatEther(balance));
+      expect(balance).to.be.above(ether(10_099))
     });
   });
 

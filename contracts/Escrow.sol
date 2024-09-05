@@ -76,6 +76,9 @@ contract Escrow {
     require(approval[lender], "must be approved by lender");
     require(address(this).balance >= purchasePrice, "must have enough ether for sale");
 
+    (bool success, ) = payable(seller).call{value: address(this).balance}("");
+    require(success);
+
     // NOTE: Transfer ownership of property
     IERC721(nftAddress).transferFrom(seller, buyer, nftID);
   }
