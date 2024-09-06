@@ -5,6 +5,10 @@ import "hardhat/console.sol";
 import "./Token.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
+interface IReceiver {
+  function receiveTokens(address tokenAddress, uint256 amount) external;
+}
+
 contract FlashLoan {
   using SafeMath for uint256;
   uint256 public poolBalance;
@@ -21,7 +25,12 @@ contract FlashLoan {
   }
 
   function flashLoan(uint256 _borrowAmount) external {
-      console.log("_borrowAmount",_borrowAmount); 
-    
+    // NOTE: Send toekns to receiver
+    token.transfer(msg.sender, _borrowAmount);
+
+    // NOTE:  Use loan, get paid back
+    IReceiver(msg.sender).receiveTokens(address(token), _borrowAmount);
+
+    // NOTE: Ensure loan paid back
   }
 }
