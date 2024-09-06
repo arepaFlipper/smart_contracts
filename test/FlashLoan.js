@@ -8,7 +8,7 @@ const tokens = (n) => {
 const ether = tokens;
 
 describe('FlashLoan', () => {
-  let token, flashLoan, deployer;
+  let token, flashLoan, flashLoanReceiver, deployer;
   beforeEach(async () => {
     // NOTE: Setup accounts
     let accounts = await ethers.getSigners();
@@ -16,7 +16,7 @@ describe('FlashLoan', () => {
 
     // NOTE: Load accounts
     const FlashLoan = await ethers.getContractFactory('FlashLoan');
-    const FLashLoanReceiver = await ethers.getContractFactory('FlashLoanReceiver');
+    const FlashLoanReceiver = await ethers.getContractFactory('FlashLoanReceiver');
     const Token = await ethers.getContractFactory('Token');
 
     // NOTE: Deploy Token
@@ -34,6 +34,8 @@ describe('FlashLoan', () => {
 
     await transaction.wait()
 
+    // NOTE: Deploy Flash Loan receiver
+    flashLoanReceiver = await FlashLoanReceiver.deploy(flashLoan.address);
   });
 
   describe('Deployment', () => {
