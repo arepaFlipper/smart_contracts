@@ -19,4 +19,9 @@ contract FlashLoan {
     token.transferFrom(msg.sender, address(this), _amount);
     poolBalance = poolBalance.add(_amount);
   }
+
+  function flashLoan(uint256 _borrowAmount) external {
+      console.log("_borrowAmount",_borrowAmount); 
+    
+  }
 }

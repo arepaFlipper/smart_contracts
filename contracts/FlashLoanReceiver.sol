@@ -12,4 +12,9 @@ contract FlashLoanReceiver {
     pool = FlashLoan(_poolAddress);
     owner = msg.sender;
   }
+
+  function executeFlashLoan(uint256 amount) external {
+    require(msg.sender == owner, "Only owner can execute flash loan");
+    pool.flashLoan(amount);
+  }
 }
