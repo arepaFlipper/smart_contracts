@@ -8,9 +8,10 @@ const tokens = (n) => {
 const ether = tokens;
 
 describe('FlashLoan', () => {
+  let token, flashLoan, deployer;
   beforeEach(async () => {
     // NOTE: Setup accounts
-    accounts = await ethers.getSigners();
+    let accounts = await ethers.getSigners();
     deployer = accounts[0];
 
     // NOTE: Load accounts
@@ -19,10 +20,10 @@ describe('FlashLoan', () => {
     const Token = await ethers.getContractFactory('Token');
 
     // NOTE: Deploy Token
-    let token = await Token.deploy('Dapp University', 'DAPP', '1000000');
+    token = await Token.deploy('Dapp University', 'DAPP', '1000000');
 
     // NOTE: Deploy Token
-    let flashLoan = await FlashLoan.deploy(token.address);
+    flashLoan = await FlashLoan.deploy(token.address);
 
     // NOTE: Approve tokens before depositing
     let transaction = await token.connect(deployer).approve(flashLoan.address, tokens(1_000_000))
@@ -36,8 +37,8 @@ describe('FlashLoan', () => {
   });
 
   describe('Deployment', () => {
-    it('works', () => {
-      expect(1 + 1).to.equal(2);
+    it('sends tokens to the flash loan pool contract', async () => {
+      expect(await token.balanceOf(flashLoan.address)).to.equal(tokens(1_000_000))
     });
   });
 });
