@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { ehters } = require("hardhat");
+const { ethers } = require("hardhat");
 
 const tokens = (n) => {
   return ethers.utils.parseUnits(n.toString(), 'ether');
@@ -8,7 +8,21 @@ const tokens = (n) => {
 const ether = tokens;
 
 describe('FlashLoan', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    // NOTE: Setup accounts
+    accounts = await ethers.getSigners();
+    deployer = accounts[0];
+
+    // NOTE: Load accounts
+    const FlashLoan = await ethers.getContractFactory('FlashLoan');
+    const FLashLoanReceiver = await ethers.getContractFactory('FlashLoanReceiver');
+    const Token = await ethers.getContractFactory('Token');
+
+    // NOTE: Deploy Token
+    let token = await Token.deploy('Dapp University', 'DAPP', '1000000');
+
+    // NOTE: Deploy Token
+    let flashLoan = await FlashLoan.deploy(token.address);
 
   });
 
