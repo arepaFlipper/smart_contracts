@@ -24,6 +24,15 @@ describe('FlashLoan', () => {
     // NOTE: Deploy Token
     let flashLoan = await FlashLoan.deploy(token.address);
 
+    // NOTE: Approve tokens before depositing
+    let transaction = await token.connect(deployer).approve(flashLoan.address, tokens(1_000_000))
+    await transaction.wait()
+
+    // NOTE: Deposit tokens on the Pool
+    transaction = await flashLoan.connect(deployer).depositTokens(tokens(1_000_000));
+
+    await transaction.wait()
+
   });
 
   describe('Deployment', () => {
