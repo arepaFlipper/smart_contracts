@@ -26,6 +26,7 @@ contract FlashLoanReceiver {
     emit LoanReceived(_tokenAddress, _amount);
 
     // NOTE: Return funds to pool
+    require(Token(_tokenAddress).transfer(msg.sender, _amount), "Transder of tokens failed");
   }
 
   function executeFlashLoan(uint256 amount) external {

@@ -40,5 +40,7 @@ contract FlashLoan {
     IReceiver(msg.sender).receiveTokens(address(token), _borrowAmount);
 
     // NOTE: Ensure loan paid back
+    uint256 balanceAfter = token.balanceOf(address(this));
+    require(balanceAfter >= balanceBefore, "Flash loan hasn't been paid back");
   }
 }
