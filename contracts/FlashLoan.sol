@@ -30,6 +30,9 @@ contract FlashLoan {
     uint256 balanceBefore = token.balanceOf(address(this));
     require(balanceBefore >= _borrowAmount, "Not enough tokens in pool");
 
+    // NOTE: Ensured by the protocol via the `depositTokens` function.
+    assert(poolBalance == balanceBefore);
+
     // NOTE: Send toekns to receiver
     token.transfer(msg.sender, _borrowAmount);
 
