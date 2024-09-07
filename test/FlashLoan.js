@@ -50,6 +50,9 @@ describe('FlashLoan', () => {
       let transaction = await flashLoanReceiver.connect(deployer).executeFlashLoan(amount);
       let result = await transaction.wait();
 
+      await expect(transaction).to.emit(flashLoanReceiver, 'LoanReceived')
+        .withArgs(token.address, amount)
+
     })
   })
 });

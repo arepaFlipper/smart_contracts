@@ -9,14 +9,21 @@ contract FlashLoanReceiver {
   FlashLoan private pool;
   address private owner;
 
+  event LoanReceived(address token, uint256 amount);
+
   constructor(address _poolAddress){
     pool = FlashLoan(_poolAddress);
     owner = msg.sender;
   }
 
   function receiveTokens(address _tokenAddress, uint256 _amount) external {
-    // NOTE: Do stuff with the money...
+    require (msg.sender == address(pool), "Sender must be pool");
+
+    // NOTE: Require funds received
     require(Token(_tokenAddress).balanceOf(address(this)) == _amount, 'failed to get loan');
+
+    // NOTE: Emit event
+    emit LoanReceived(_tokenAddress, _amount);
 
     // NOTE: Return funds to pool
   }

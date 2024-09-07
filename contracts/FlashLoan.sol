@@ -25,6 +25,11 @@ contract FlashLoan {
   }
 
   function flashLoan(uint256 _borrowAmount) external {
+    require(_borrowAmount> 0, "Must borrow at least 1 token");
+
+    uint256 balanceBefore = token.balanceOf(address(this));
+    require(balanceBefore >= _borrowAmount, "Not enough tokens in pool");
+
     // NOTE: Send toekns to receiver
     token.transfer(msg.sender, _borrowAmount);
 
